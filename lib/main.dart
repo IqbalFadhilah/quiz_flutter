@@ -85,28 +85,288 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //jaawaban no 1
   Widget soalNo1() {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+    final _formKey = GlobalKey<FormState>();
+    String _namaDepan = '';
+    String _namaBelakang = '';
+    String _gender = '';
+    DateTime? _dateOfBirth;
+    String _alamat = '';
+
+    return Stack(
+    children: [
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20.0),
+            bottomRight: Radius.circular(20.0),
+          ),
         ),
-        body: const Text("ini jawaban no 1"));
+        height: MediaQuery.of(context).size.height / 3,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 16.0, top: 20.0, bottom: 20.0),
+              child: Text(
+                'Budi Martami',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Spacer(),
+            Padding(
+              padding: const EdgeInsets.only(right: 20, top: 1.0, bottom: 20.0),
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage('https://1.bp.blogspot.com/-ufPUMFSmzRk/Xbd9vpx_bVI/AAAAAAAAPDI/jw3q5WNkB1EwNrNdrfNZRu1Jpp2A9230ACLcBGAsYHQ/s1600/foto%2Bprofil%2Bwa%2B26.jpg'),
+              ),
+            ),
+          ],
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(top: 125.0, right: 30.0, left: 30.0),
+        
+        child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.black)),
+          
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Ubah Profil',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nama Depan',
+                      ),
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return 'Nama Depan harus diisi';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _namaDepan = value!,
+                    ),
+                    SizedBox(height: 8.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Nama Belakang',
+                      ),
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return 'Nama Belakang harus diisi';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _namaBelakang = value!,
+                    ),
+                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Gender',
+                                ),
+                              ),
+                              SizedBox(height: 4.0),
+                              Container(
+                                height: 30.0,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: DropdownButtonFormField<String>(
+                                  value: 'Perempuan',
+                                  items: ['Perempuan', 'Laki-laki']
+                                      .map((gender) => DropdownMenuItem(
+                                    value: gender,
+                                    child: Text(gender),
+                                  ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _gender = value!;
+                                    });
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.all(4.0),
+                                    border: InputBorder.none,
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Gender harus dipilih';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: 4.0),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                  'Tanggal Lahir',
+                                ),
+                              ),
+                              SizedBox(height: 4.0),
+                              GestureDetector(
+                                onTap: () {
+                                  showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime.now(),
+                                  ).then((selectedDate) {
+                                    if (selectedDate != null) {
+                                      setState(() {
+                                        _dateOfBirth = selectedDate;
+                                      });
+                                    }
+                                  });
+                                },
+                                child: Container(
+                                  height: 30.0,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextFormField(
+                                          enabled: false,
+                                          decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            labelText: _dateOfBirth == null
+                                                ? 'DD/MM/YYYY'
+                                                : '${_dateOfBirth!.day}/${_dateOfBirth!.month}/${_dateOfBirth!.year}',
+                                          ),
+                                          validator: (value) {
+                                            if (_dateOfBirth == null) {
+                                              return 'Tanggal Lahir harus diisi';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.0),
+                                      Icon(Icons.calendar_today, size: 20.0),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: 'Alamat',
+                      ),
+                      validator: (value){
+                        if(value!.isEmpty){
+                          return 'Alamat harus diisi';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) => _alamat = value!,
+                    ),
+                    SizedBox(height: 16.0),
+                    Align(
+                      alignment: Alignment.center,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            print('Nama Depan: $_namaDepan');
+                            print('Nama Belakang: $_namaBelakang');
+                            print('Gender: $_gender');
+                            print('Tanggal Lahir: $_dateOfBirth');
+                            print('Alamat: $_alamat');
+
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Profil Berhasil Diubah"),
+                                  content: Text("Profil Anda berhasil diperbarui."),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text("OK"),
+                                      onPressed: () {
+                                        _formKey.currentState!.reset();
+                                        setState(() {
+                                          _dateOfBirth = null;
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.amber,
+                        ),
+                        child: Text(
+                          'Simpan',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          
+          ),
+        ),
+      ),
+    ],
+  );
+
   }
 
   //jaawaban no 2
   Widget soalNo2() {
-    int _selectedIndex = 0;
-
-    void _onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-
     List<CustomIcon> customIcons = [
-      CustomIcon(icon: "assets/icons/shop.png", name: "Official Store"),
-      CustomIcon(icon: "assets/icons/hot-sale.png", name: "Hot Deal"),
-      CustomIcon(icon: "assets/icons/clothes-hanger.png", name: "Fashion"),
-      CustomIcon(icon: "assets/icons/skincare.png", name: "Kosmetik"),
+      CustomIcon(icon: Icons.storefront_outlined, name: "Official Store"),
+      CustomIcon(icon: Icons.local_fire_department, name: "Hot Deal"),
+      CustomIcon(icon: Icons.checkroom, name: "Fashion"),
+      CustomIcon(icon: Icons.face_retouching_natural, name: "Kosmetik"),
     ];
     
     final List<String> imgList = [
@@ -232,10 +492,7 @@ class _MyHomePageState extends State<MyHomePage> {
               return Column(
                 children: [
                   Container(
-                    width: 65,
-                    height: 65,
-                    padding: const EdgeInsets.all(12.0), 
-                    child: Image.asset(customIcons[index].icon),
+                    child: Icon(customIcons[index].icon, size: 35, color: customIcons[index].icon == Icons.local_fire_department ? Colors.red : null),
                   ),
                   const SizedBox(height: 6),
                   Text(
@@ -299,7 +556,7 @@ class _MyHomePageState extends State<MyHomePage> {
       
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-          indicatorColor: Colors.orange
+          indicatorColor: Colors.yellow[700]
         ), 
         child: NavigationBar(
           destinations: [
@@ -316,7 +573,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class CustomIcon {
-  final String icon;
+  final IconData icon;
   final String name;
   CustomIcon({
     required this.icon,
