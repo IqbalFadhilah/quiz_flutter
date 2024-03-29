@@ -82,282 +82,295 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-  //jaawaban no 1
-  Widget soalNo1() {
+  
+  //Jawaban no1
+  Widget soalNo1(){
     final _formKey = GlobalKey<FormState>();
     String _namaDepan = '';
     String _namaBelakang = '';
     String _gender = '';
     DateTime? _dateOfBirth;
     String _alamat = '';
+    final _dateController = TextEditingController();
 
-    return Stack(
-    children: [
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.amber,
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(20.0),
-            bottomRight: Radius.circular(20.0),
-          ),
-        ),
-        height: MediaQuery.of(context).size.height / 3,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(left: 16.0, top: 20.0, bottom: 20.0),
-              child: Text(
-                'Budi Martami',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+    return Scaffold(
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.4,
+                decoration: BoxDecoration(
+                  color: Colors.yellow[600],
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(40.0),
+                    bottomRight: Radius.circular(40.0),
+                  ),
                 ),
               ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.only(right: 20, top: 1.0, bottom: 20.0),
-              child: CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage('https://1.bp.blogspot.com/-ufPUMFSmzRk/Xbd9vpx_bVI/AAAAAAAAPDI/jw3q5WNkB1EwNrNdrfNZRu1Jpp2A9230ACLcBGAsYHQ/s1600/foto%2Bprofil%2Bwa%2B26.jpg'),
-              ),
-            ),
-          ],
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(top: 125.0, right: 30.0, left: 30.0),
-        
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.black)),
-          
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.only(top: 100.0, left: 40.0, right: 60.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Ubah Profil',
+                      'Budi Martami',
                       style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 8.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Nama Depan',
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return 'Nama Depan harus diisi';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => _namaDepan = value!,
-                    ),
-                    SizedBox(height: 8.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Nama Belakang',
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return 'Nama Belakang harus diisi';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => _namaBelakang = value!,
-                    ),
-                    SizedBox(height: 8.0),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Gender',
-                                ),
-                              ),
-                              SizedBox(height: 4.0),
-                              Container(
-                                height: 30.0,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(4.0),
-                                ),
-                                child: DropdownButtonFormField<String>(
-                                  value: 'Perempuan',
-                                  items: ['Perempuan', 'Laki-laki']
-                                      .map((gender) => DropdownMenuItem(
-                                    value: gender,
-                                    child: Text(gender),
-                                  ))
-                                      .toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _gender = value!;
-                                    });
-                                  },
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(4.0),
-                                    border: InputBorder.none,
-                                  ),
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Gender harus dipilih';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 4.0),
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'Tanggal Lahir',
-                                ),
-                              ),
-                              SizedBox(height: 4.0),
-                              GestureDetector(
-                                onTap: () {
-                                  showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(1900),
-                                    lastDate: DateTime.now(),
-                                  ).then((selectedDate) {
-                                    if (selectedDate != null) {
-                                      setState(() {
-                                        _dateOfBirth = selectedDate;
-                                      });
-                                    }
-                                  });
-                                },
-                                child: Container(
-                                  height: 30.0,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.grey),
-                                    borderRadius: BorderRadius.circular(4.0),
-                                  ),
-                                  padding: EdgeInsets.symmetric(horizontal: 4.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextFormField(
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            labelText: _dateOfBirth == null
-                                                ? 'DD/MM/YYYY'
-                                                : '${_dateOfBirth!.day}/${_dateOfBirth!.month}/${_dateOfBirth!.year}',
-                                          ),
-                                          validator: (value) {
-                                            if (_dateOfBirth == null) {
-                                              return 'Tanggal Lahir harus diisi';
-                                            }
-                                            return null;
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(width: 4.0),
-                                      Icon(Icons.calendar_today, size: 20.0),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        labelText: 'Alamat',
-                      ),
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return 'Alamat harus diisi';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => _alamat = value!,
-                    ),
-                    SizedBox(height: 16.0),
-                    Align(
-                      alignment: Alignment.center,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            print('Nama Depan: $_namaDepan');
-                            print('Nama Belakang: $_namaBelakang');
-                            print('Gender: $_gender');
-                            print('Tanggal Lahir: $_dateOfBirth');
-                            print('Alamat: $_alamat');
-
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: Text("Profil Berhasil Diubah"),
-                                  content: Text("Profil Anda berhasil diperbarui."),
-                                  actions: <Widget>[
-                                    TextButton(
-                                      child: Text("OK"),
-                                      onPressed: () {
-                                        _formKey.currentState!.reset();
-                                        setState(() {
-                                          _dateOfBirth = null;
-                                        });
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                        ),
-                        child: Text(
-                          'Simpan',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    Spacer(),
+                    CircleAvatar(
+                      radius: 28,
+                      backgroundImage: NetworkImage('https://1.bp.blogspot.com/-ufPUMFSmzRk/Xbd9vpx_bVI/AAAAAAAAPDI/jw3q5WNkB1EwNrNdrfNZRu1Jpp2A9230ACLcBGAsYHQ/s1600/foto%2Bprofil%2Bwa%2B26.jpg'),
                     ),
                   ],
                 ),
               ),
-          
+              Padding(
+                padding: const EdgeInsets.only(top: 170, right: 30.0, left: 30.0),
+                child: SizedBox(
+                  height: 500,
+                  child: Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0), side: BorderSide(color: Colors.black)), 
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Ubah Profil',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8.0),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Nama Depan',
+                                ),
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return 'Nama Depan harus diisi';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => _namaDepan = value!,
+                              ),
+                              SizedBox(height: 8.0),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Nama Belakang',
+                                ),
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return 'Nama Belakang harus diisi';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => _namaBelakang = value!,
+                              ),
+                              SizedBox(height: 8.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Gender',
+                                        ),
+                                        SizedBox(height: 6.0),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: Container(
+                                            height: 50.0,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.grey),
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Align(
+                                              alignment: Alignment.center, // Mencentralisasi teks
+                                              child: DropdownButtonFormField<String>(
+                                                value: 'Perempuan',
+                                                items: ['Perempuan', 'Laki-laki']
+                                                    .map((gender) => DropdownMenuItem(
+                                                          value: gender,
+                                                          child: Text(gender),
+                                                        ))
+                                                    .toList(),
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    _gender = value!;
+                                                  });
+                                                },
+                                                decoration: InputDecoration(
+                                                  contentPadding: EdgeInsets.all(4.0),
+                                                  border: InputBorder.none,
+                                                ),
+                                                validator: (value) {
+                                                  if (value == null || value.isEmpty) {
+                                                    return 'Gender harus dipilih';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(width: 4.0),
+                                  Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Align(
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              'Tanggal Lahir',
+                                            ),
+                                          ),
+                                          SizedBox(height: 4.0),
+                                          GestureDetector(
+                                            onTap: () {
+                                              showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1900),
+                                                lastDate: DateTime.now(),
+                                              ).then((selectedDate) {
+                                                if (selectedDate != null) {
+                                                  setState(() {
+                                                    _dateOfBirth = selectedDate;
+                                                    _dateController.text = '${_dateOfBirth!.day}/${_dateOfBirth!.month}/${_dateOfBirth!.year}'; // Memperbarui teks
+                                                  });
+                                                }
+                                              });
+                                            },
+                                            child: Container(
+                                              height: 50.0,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: Colors.grey),
+                                              ),
+                                              padding: EdgeInsets.symmetric(horizontal: 4.0),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: TextFormField(
+                                                      controller: _dateController, // Menggunakan TextEditingController
+                                                      enabled: false,
+                                                      decoration: InputDecoration(
+                                                        border: InputBorder.none,
+                                                        labelText: _dateOfBirth != null
+                                                            ? '${_dateOfBirth!.day}/${_dateOfBirth!.month}/${_dateOfBirth!.year}'
+                                                            : 'DD/MM/YYYY',
+                                                      ),
+                                                      validator: (value) {
+                                                        if (_dateOfBirth == null) {
+                                                          return 'Tanggal Lahir harus diisi';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                  ),
+                                                  SizedBox(width: 4.0),
+                                                  Icon(Icons.calendar_today, size: 20.0),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 8.0),
+                              TextFormField(
+                                decoration: InputDecoration(
+                                  labelText: 'Alamat',
+                                ),
+                                validator: (value){
+                                  if(value!.isEmpty){
+                                    return 'Alamat harus diisi';
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) => _alamat = value!,
+                              ),
+                              SizedBox(height: 16.0),
+                              Align(
+                                alignment: Alignment.center,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 120.0),
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _formKey.currentState!.save();
+                                        print('Nama Depan: $_namaDepan');
+                                        print('Nama Belakang: $_namaBelakang');
+                                        print('Gender: $_gender');
+                                        print('Tanggal Lahir: $_dateOfBirth');
+                                        print('Alamat: $_alamat');
+                                                    
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text("Profil Berhasil Diubah"),
+                                              content: Text("Profil Anda berhasil diperbarui."),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: Text("OK"),
+                                                  onPressed: () {
+                                                    _formKey.currentState!.reset();
+                                                    setState(() {
+                                                      _dateOfBirth = null;
+                                                    });
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.yellow[600],
+                                    ),
+                                    child: Text(
+                                      'Simpan',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-    ],
-  );
-
+        ]
+      )
+    );
   }
 
   //jaawaban no 2
@@ -445,7 +458,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           SizedBox(height: 12),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 60),
+            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
             child: Container(
               height: 80,
               decoration: BoxDecoration(
